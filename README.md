@@ -1,0 +1,4 @@
+ciscaffolding
+=============
+
+ci generator
