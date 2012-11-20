@@ -3,9 +3,12 @@ package org.atomsoft.ci.ciscaffolding;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.atomsoft.ci.ciscaffolding.tpl.MyTemplates;
 import org.junit.Test;
 
@@ -16,8 +19,8 @@ import freemarker.template.Template;
 
 
 public class AppTest {
-	
-	@Test
+	static final Log logger = LogFactory.getLog(AppTest.class);
+	//@Test
 	public void testTemplate() throws Exception {
 		Configuration cfg = new Configuration();
 		ClassTemplateLoader loader = new ClassTemplateLoader(MyTemplates.class,
@@ -33,5 +36,17 @@ public class AppTest {
 		Writer out = new OutputStreamWriter(System.out);
 		temp.process(root, out);
 		out.flush();
+	}
+	
+	@Test
+	public void testDB(){
+		DBTool dbtool = new DBTool();
+		Collection<String> tables = dbtool.getTables();
+	    for(String table :tables){
+	    	logger.info(table);
+	    	for(String field:dbtool.getColumns(table)){
+	    		logger.info("\t"+field);
+	    	}
+	    }
 	}
 }
