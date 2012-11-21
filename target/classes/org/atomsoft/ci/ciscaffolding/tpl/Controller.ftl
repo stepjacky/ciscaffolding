@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * FileName ${fileName}
+ * FileName application/controllers/${fileName}
  * Created by CIscaffolding.
  * User: qujiakang
  * QQ:myqq_postor@qq.com
@@ -25,14 +25,18 @@
  *    
  */
 
-class ${entityName} extends CI_Controller {
+class ${entityName} extends MY_Controller {
      
     public  function __construct(){
         parent::__construct();
     }
 
     public function index(){
-    
+        $data = array();
+        
+        $this->load->view("apps/header");
+        $this->load->view("${entityName}/index",$data);
+        $this->load->view("apps/footer");
     }
     
     

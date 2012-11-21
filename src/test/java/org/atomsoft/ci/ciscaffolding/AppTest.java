@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.atomsoft.ci.ciscaffolding.tpl.MyTemplates;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -40,6 +41,7 @@ public class AppTest {
 	
 	@Test
 	public void testDB(){
+		ApplicationContext ctx;
 		DBTool dbtool = new DBTool();
 		Collection<String> tables = dbtool.getTables();
 	    for(String table :tables){
