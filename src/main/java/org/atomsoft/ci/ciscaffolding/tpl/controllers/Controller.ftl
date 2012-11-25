@@ -27,7 +27,14 @@
 class ${entityName?cap_first} extends MY_Controller {
      
     public  function __construct(){
-        parent::__construct();
+        parent::__construct("${entityName?cap_first}_model");
+        <#list attrs?keys as attr>
+            <#assign meta = attrs[attr]>
+            <#if meta.textable>
+               $this->load->library('create_ckeditor');
+                
+            </#if>
+        </#list>
     }
 
     public function index(){
@@ -36,6 +43,47 @@ class ${entityName?cap_first} extends MY_Controller {
         $this->load->view("apps/header");
         $this->load->view("${entityName}/index",$data);
         $this->load->view("apps/footer");
+    }
+    
+     /**
+      * 新增编辑
+      */
+    public function editNew($id=-1){
+        
+       $data = array(); 
+	   <#list attrs?keys as attr>
+            <#assign meta = attrs[attr]>
+            <#if meta.textable>
+             
+               $ckcfg = array();
+               $ckcfg["name"]  ="${meta.name}";          
+                <#break>     
+                    
+            </#if>
+        </#list>
+      
+        if($id!=-1){
+           $data = $this->dao->get($id);
+           <#list attrs?keys as attr>
+            <#assign meta = attrs[attr]>
+            <#if meta.textable>
+              $ckcfg["value"] = $data["${meta.name}"];       
+              <#break>               
+            </#if>
+        </#list>
+          
+        }
+        
+        <#list attrs?keys as attr>
+            <#assign meta = attrs[attr]>
+            <#if meta.textable>
+             $data['my_editor'] = $this->create_ckeditor->createEditor( $ckcfg);        
+         <#break>               
+            </#if>
+        </#list>
+        $this->load->view("admin/header");
+        $this->load->view($this->dao->table()."/editNew",$data);
+        $this->load->view("admin/footer");
     }
     
     

@@ -1,9 +1,9 @@
-<script type="text/javascript" src="/resources/scripts/${entityName}/edit.js"></script>
+
 <link href="/resources/styles/${entityName}/style.css" media="screen" rel="stylesheet" type="text/css" />
 <form id="${entityName}form" >
 <input type="hidden" id="action" value="/${entityName}/saveupdate" />
 <fieldset>
-<legend>编辑/新增</legend>
+<legend>编辑/新增-${entityLabel}</legend>
 <table class="table table-hover table-bordered">
 <tbody>
 <#list attrs?keys as attrName>
@@ -16,14 +16,22 @@
    <td>${meta.comment}</td>
    <td>       
        
-        <?= form_dropdown("${meta.name}",$shopcategory)?>       
+        <?= form_dropdown("${meta.name}")?>       
     
    </td>     
     <#else>
        <tr>
    <td>${meta.comment}</td>
    <td> 
-      <input type="text" name="${meta.name}" id="${meta.name}"  value="${r"<?php echo isset($id)?$"}${meta.name} ${r":'';?>"} "/>   
+     <#if meta.textable >
+        <?php echo $my_editor; ?>
+        <#elseif meta.dateable>
+        
+        <input class="datepicker" data-date-format="yyyy-mm-dd" type="text" name="${meta.name}" id="${meta.name}"  value="${r"<?php echo isset($id)?$"}${meta.name} ${r":'';?>"}" readOnly="true"/>   
+        <#else>
+        <input type="text" name="${meta.name}" id="${meta.name}"  value="${r"<?php echo isset($id)?$"}${meta.name} ${r":'';?>"} "/>   
+     </#if>
+     
    
    </td>
  </#if> 
@@ -46,3 +54,5 @@
 </table>
 </fieldset>
 </form>
+<script type="text/javascript" src="/resources/bootstrap/js/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/resources/scripts/${entityName}/edit.js"></script>

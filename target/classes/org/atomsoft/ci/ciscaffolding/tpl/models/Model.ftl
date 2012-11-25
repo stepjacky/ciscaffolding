@@ -24,10 +24,10 @@
  *    
  */
 
-class ${entityName?cap_first} extends MY_Model {
+class ${entityName?cap_first}_model extends MY_Model {
      
     public  function __construct(){
-        parent::__construct("${entityName}");
+        parent::__construct("${entityName?cap_first}_model");
     }  
     
     

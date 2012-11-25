@@ -13,7 +13,10 @@
         <tr>
         <#list attrs?keys as attrName>
            <#assign meta = attrs[attrName]>
-             <th>${meta.comment}</th>            
+             <#if !meta.textable>
+                <th>${meta.comment}</th> 
+             </#if>
+                         
         </#list>
             <th>管理</th>
         </tr>
@@ -26,9 +29,12 @@
            <tr>
          <#list attrs?keys as attrName>
            <#assign meta = attrs[attrName]>
-            <td>
+            <#if !meta.textable>
+                <td>
               ${r"<?=$bean['"}${meta.name}${r"']?>"}               
-            </td>           
+            </td>  
+             </#if>
+                      
          </#list>   
            <td>
              <button class="btn btn-success" type="button" onclick="editOne('${r"<?php echo $bean['id'];?>"}');">

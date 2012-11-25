@@ -63,10 +63,11 @@ public class DBTool {
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				String name = rs.getString(1);
+				String type = rs.getString(2);
 				String key =  rs.getString(5);
 				String comment = rs.getString(9);
 				
-				mp.put(name, new ColumnMeta(name,key,comment));
+				mp.put(name, new ColumnMeta(name,key,comment,type));
 				return null;
 			}
 
