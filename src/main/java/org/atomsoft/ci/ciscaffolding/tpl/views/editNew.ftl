@@ -1,7 +1,7 @@
 
 <link href="/resources/styles/${entityName}/style.css" media="screen" rel="stylesheet" type="text/css" />
-<form id="${entityName}form" >
-<input type="hidden" id="action" value="/${entityName}/saveupdate" />
+<form id="${entityName}form" method="post" >
+
 <fieldset>
 <legend>编辑/新增-${entityLabel}</legend>
 <table class="table table-hover table-bordered">
@@ -22,7 +22,7 @@
     <#else>
        <tr>
    <td>${meta.comment}</td>
-   <td> 
+   <td>    
      <#if meta.textable >
         <?php echo $my_editor; ?>
         <#elseif meta.dateable>
@@ -34,21 +34,24 @@
      
    
    </td>
+   </tr> 
  </#if> 
  
  
     
    
- </tr>    
+ 
 </#list>
 </tbody>
 <tfoot>
   <tr>
    <td>
-      <button class="btn btn-success" id="saveBtn">保存</button>
-      <button class="btn" type="reset">重置</button>      
+           
    </td>
-   <td></td>
+   <td>
+   <button class="btn btn-success" id="saveBtn" type="button">保存</button>
+      <button class="btn" type="reset">重置</button> 
+   </td>
   </tr>
 </tfoot>     
 </table>

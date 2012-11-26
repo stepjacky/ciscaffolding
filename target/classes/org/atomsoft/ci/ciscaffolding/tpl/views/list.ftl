@@ -4,7 +4,7 @@
         <#assign attrlen=attrs?size >
         <thead>
         <tr>
-          <th colspan="${attrlen}">
+          <th colspan="${attrlen+1}">
             <button type="button" class="btn btn-info" onclick="newOne();">
              <i class="icon-plus"></i>新增${entityLabel}
             </button>
@@ -53,7 +53,7 @@
         </tbody>
         <tfoot>
         <tr>          
-            <td colspan="${attrlen}">
+            <td colspan="${attrlen+1}">
                 <?=$pagelink;?>
             </td>
         </tr>
