@@ -45,8 +45,9 @@ public class DBTool {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				
-				mp.put(rs.getString(1), rs.getString(18));
+				String cm = rs.getString(18);
+				String[] ch  = cm.split(",");
+				if(ch.length==1)mp.put(rs.getString(1), cm);
 				return "";
 			}
 
@@ -55,19 +56,18 @@ public class DBTool {
 
 	}
 
-	public Map<String, ColumnMeta> getColumnsMetas(String table) {
+	public Map<String, ColumnMeta> getColumnsMetas(final String table) {
 		String sql = String.format("SHOW FULL FIELDS FROM `%s`", table);
 		final Map<String, ColumnMeta> mp = new java.util.TreeMap<String, ColumnMeta>();
 		jdbcTemp.query(sql, new RowMapper<String>() {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				String name = rs.getString(1);
-				String type = rs.getString(2);
-				String key =  rs.getString(5);
+				String name = rs.getString(1);				
 				String comment = rs.getString(9);
-				
-				mp.put(name, new ColumnMeta(name,key,comment,type));
+				ColumnMeta cm = new ColumnMeta(name,comment);
+				cm.setTable(table);
+				mp.put(name, cm);
 				return null;
 			}
 

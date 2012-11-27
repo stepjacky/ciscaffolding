@@ -8,39 +8,21 @@
 <tbody>
 <#list attrs?keys as attrName>
  <#assign meta = attrs[attrName] >
- <#if meta.key=="PRI">
-     <input type="hidden" name="${meta.name}" id="${meta.name}"  value="${r"<?php echo isset($id)?$"}${meta.name} ${r":'';?>"} "/>   
-     
-    <#elseif meta.key=="MUL">
-        <tr>
+  <#if meta.name=="id">
+      ${meta.html}
+     <#else>
+     <tr>
    <td>${meta.comment}</td>
-   <td>       
-       
-        <?= form_dropdown("${meta.name}")?>       
-    
+   <td>            
+        ${meta.html}
    </td>     
-    <#else>
-       <tr>
-   <td>${meta.comment}</td>
-   <td>    
-     <#if meta.textable >
-        <?php echo $my_editor; ?>
-        <#elseif meta.dateable>
-        
-        <input class="datepicker" data-date-format="yyyy-mm-dd" type="text" name="${meta.name}" id="${meta.name}"  value="${r"<?php echo isset($id)?$"}${meta.name} ${r":'';?>"}" readOnly="true"/>   
-        <#else>
-        <input type="text" name="${meta.name}" id="${meta.name}"  value="${r"<?php echo isset($id)?$"}${meta.name} ${r":'';?>"} "/>   
-     </#if>
+   
+<tr>
+  </#if>
+  
+  
      
-   
-   </td>
-   </tr> 
- </#if> 
- 
- 
-    
-   
- 
+  
 </#list>
 </tbody>
 <tfoot>

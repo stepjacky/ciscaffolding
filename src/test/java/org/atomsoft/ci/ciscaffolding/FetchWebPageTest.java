@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -45,20 +46,20 @@ public class FetchWebPageTest {
 	 * @throws IOException
 	 */
 	public static final HttpClient httpclient = new DefaultHttpClient();
+	
 	String host = "";
-
+    String pagePrefix = "thread-htm-fid-47-page-";
 	@Test
 	public void findLinks() throws Exception {
-		ExecutorService service = Executors.newScheduledThreadPool(50);
-		Collection<Callable<String>> tasks = Lists.newArrayList();
-		for (int i = 1; i < 92; i++) {
-
-			String pageIndex = "" + i + ".html";
-			// tasks.add(new FetchLink(pageIndex));
+		
+		
+		for (int i = 1; i < 107; i++) {
+			String pageIndex = pagePrefix + i + ".html";			
 			new FetchLink(pageIndex).call();
-			Thread.sleep(5);
+			Thread.sleep(1);
+			
 		}
-		// service.invokeAll(tasks);
+		
 	}
 
 	final static Map<String, File> dfiles = Maps.newHashMap();
@@ -82,27 +83,10 @@ public class FetchWebPageTest {
 				InstantiationException, IllegalAccessException, IOException,
 				InterruptedException {
 
-			String page = host + thread;
-			HttpGet httpget = new HttpGet(page);
+			String page = host +"/"+ thread;
+			HttpGet httpget =setupRequest(url);
 			logger.info("正在抓取页面链接:" + page);
-
-			httpget.addHeader(new BasicHeader("Accept",
-					"text/html,application/xhtml+xml,application/xml;q=0.9,*;q=0.8"));
-			httpget.addHeader(new BasicHeader("Accept-Encoding",
-					"gzip, deflate"));
-			httpget.addHeader(new BasicHeader("Accept-Language",
-					"zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3"));
-			httpget.addHeader(new BasicHeader("Cache-Control", "	max-age=0"));
-			httpget.addHeader(new BasicHeader("Connection", "	keep-alive"));
-			httpget.addHeader(new BasicHeader(
-					"Cookie",
-					"__utma=37195827.227848702.1353749062.1353749062.1353749062.1; __utmb=37195827.7.10.1353749062; __utmc=37195827; __utmz=37195827.1353749062.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)); 02b84_lastpos=T2745417; 02b84_winduser=UFQJAAUGagNVAQVWU1EEBAoMAlYMBFdUVABdBwhVBgNdBAECBVJcPj1JG0gdV14b; 02b84_ck_info=%2F%09; 02b84_lastvisit=111%091353749191%09%2Fread.php%3Ftid-2745417.html; 02b84_threadlog=%2C46%2C; 02b84_readlog=%2C2288432%2C2745417%2C"));
-			httpget.addHeader(new BasicHeader("Host", ""));
-			httpget.addHeader(new BasicHeader("Referer",""));
-			httpget.addHeader(new BasicHeader(
-					"User-Agent",
-					"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/17.0 Firefox/17.0 FirePHP/0.7.1"));
-			httpget.addHeader(new BasicHeader("x-insight", "activate"));
+			
 			HttpResponse response = httpclient.execute(httpget);
 
 			HttpEntity entity = response.getEntity();
@@ -110,7 +94,8 @@ public class FetchWebPageTest {
 			if (entity != null) {
 
 				try (InputStream instream = entity.getContent()) {
-					GZIPInputStream gzin = new GZIPInputStream(instream);
+				   
+				    GZIPInputStream gzin = new GZIPInputStream(instream);
 					InputStreamReader isr = new InputStreamReader(gzin, "UTF-8");
 					BufferedReader reader1 = new BufferedReader(isr);
 
@@ -159,25 +144,7 @@ public class FetchWebPageTest {
 
 		void readTopic(String url, String name) throws ClientProtocolException,
 				IOException {
-			HttpGet httpget = new HttpGet(host + url);
-
-			httpget.addHeader(new BasicHeader("Accept",
-					"text/html,application/xhtml+xml,application/xml;q=0.9,*;q=0.8"));
-			httpget.addHeader(new BasicHeader("Accept-Encoding",
-					"gzip, deflate"));
-			httpget.addHeader(new BasicHeader("Accept-Language",
-					"zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3"));
-			httpget.addHeader(new BasicHeader("Cache-Control", "	max-age=0"));
-			httpget.addHeader(new BasicHeader("Connection", "	keep-alive"));
-			httpget.addHeader(new BasicHeader(
-					"Cookie",
-					"__utma=37195827.227848702.1353749062.1353749062.1353749062.1; __utmb=37195827.7.10.1353749062; __utmc=37195827; __utmz=37195827.1353749062.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)); 02b84_lastpos=T2745417; 02b84_winduser=UFQJAAUGagNVAQVWU1EEBAoMAlYMBFdUVABdBwhVBgNdBAECBVJcPj1JG0gdV14b; 02b84_ck_info=%2F%09; 02b84_lastvisit=111%091353749191%09%2Fread.php%3Ftid-2745417.html; 02b84_threadlog=%2C46%2C; 02b84_readlog=%2C2288432%2C2745417%2C"));
-			httpget.addHeader(new BasicHeader("Host", ""));
-			httpget.addHeader(new BasicHeader("Referer",""));
-			httpget.addHeader(new BasicHeader(
-					"User-Agent",
-					"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/17.0 Firefox/17.0 FirePHP/0.7.1"));
-			httpget.addHeader(new BasicHeader("x-insight", "activate"));
+			HttpGet httpget =setupRequest(url);
 			HttpResponse response = httpclient.execute(httpget);
 
 			HttpEntity entity = response.getEntity();
@@ -232,5 +199,26 @@ public class FetchWebPageTest {
 			}
 		}
 
+	}
+	
+	HttpGet setupRequest(String url){
+		HttpGet httpget = new HttpGet(host + url);
+		httpget.addHeader(new BasicHeader("Accept",
+				"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
+		httpget.addHeader(new BasicHeader("Accept-Encoding","gzip, deflate"));
+		httpget.addHeader(new BasicHeader("Accept-Language",
+				"zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3"));
+		httpget.addHeader(new BasicHeader("Cache-Control", "max-age=0"));
+		httpget.addHeader(new BasicHeader("Connection", "keep-alive"));
+		httpget.addHeader(new BasicHeader(
+				"Cookie",
+				"02b84_lastvisit=14%091354021682%09%2Fread.php%3Ftid-3104579-search-1000-orderway-postdate-asc-DESC.html; 02b84_lastpos=T3104579; __utma=266886620.1563735775.1354021670.1354021670.1354021670.1; __utmb=266886620.2.10.1354021670; __utmc=266886620; __utmz=266886620.1354021670.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); 02b84_readlog=%2C3104579%2C"));
+		httpget.addHeader(new BasicHeader("Host", "cnbbs6.com"));
+		httpget.addHeader(new BasicHeader("Referer",host+"/"+url));
+		httpget.addHeader(new BasicHeader(
+				"User-Agent",
+				"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/17.0 Firefox/17.0 FirePHP/0.7.1"));
+		httpget.addHeader(new BasicHeader("x-insight", "activate"));
+		return httpget;
 	}
 }

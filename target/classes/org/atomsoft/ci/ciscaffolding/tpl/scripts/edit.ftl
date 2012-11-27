@@ -1,6 +1,7 @@
 $(function(){
 	$("#saveBtn").bind("click",saveData);
 	$('.datepicker').datepicker();
+
 });
 function saveData(){
     var sform = document.getElementById("${entityName}form");

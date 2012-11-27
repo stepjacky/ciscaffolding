@@ -23,7 +23,7 @@ public class CIAdminTest {
 		
 		Map<String, String> tables = dbtool.getTables();
 		for(Map.Entry<String,String> entry : tables.entrySet()){
-			//<li class=""><a href="#lA" data-toggle="tab">Section 1</a></li>
+			
 			Element li = ul.appendElement("li");
 			Element a = li.appendElement("a");
 			a.attr("href","#")

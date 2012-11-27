@@ -30,7 +30,7 @@ class ${entityName?cap_first} extends MY_Controller {
         parent::__construct("${entityName?cap_first}_model");
         <#list attrs?keys as attr>
             <#assign meta = attrs[attr]>
-            <#if meta.textable>
+             <#if meta.inputType=="ckeditor">
                $this->load->library('create_ckeditor');
                 
             </#if>
@@ -53,7 +53,7 @@ class ${entityName?cap_first} extends MY_Controller {
        $data = array(); 
 	   <#list attrs?keys as attr>
             <#assign meta = attrs[attr]>
-            <#if meta.textable>
+            <#if meta.inputType=="ckeditor">
              
                $ckcfg = array();
                $ckcfg["name"]  ="${meta.name}";          
@@ -66,7 +66,7 @@ class ${entityName?cap_first} extends MY_Controller {
            $data = $this->dao->get($id);
            <#list attrs?keys as attr>
             <#assign meta = attrs[attr]>
-            <#if meta.textable>
+             <#if meta.inputType=="ckeditor">
               $ckcfg["value"] = $data["${meta.name}"];       
               <#break>               
             </#if>
@@ -76,7 +76,7 @@ class ${entityName?cap_first} extends MY_Controller {
         
         <#list attrs?keys as attr>
             <#assign meta = attrs[attr]>
-            <#if meta.textable>
+             <#if meta.inputType=="ckeditor">
              $data['my_editor'] = $this->create_ckeditor->createEditor( $ckcfg);        
          <#break>               
             </#if>

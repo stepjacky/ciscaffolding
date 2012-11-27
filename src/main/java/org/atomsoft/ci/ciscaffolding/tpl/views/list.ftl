@@ -13,7 +13,7 @@
         <tr>
         <#list attrs?keys as attrName>
            <#assign meta = attrs[attrName]>
-             <#if !meta.textable>
+             <#if meta.inputType!="ckeditor">
                 <th>${meta.comment}</th> 
              </#if>
                          
@@ -29,7 +29,7 @@
            <tr>
          <#list attrs?keys as attrName>
            <#assign meta = attrs[attrName]>
-            <#if !meta.textable>
+             <#if meta.inputType!="ckeditor">
                 <td>
               ${r"<?=$bean['"}${meta.name}${r"']?>"}               
             </td>  

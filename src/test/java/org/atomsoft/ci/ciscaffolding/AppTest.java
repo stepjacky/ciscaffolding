@@ -110,5 +110,12 @@ public class AppTest {
 		temp.process(root, out);
 		out.flush();
 	}
+	
+	//@Test
+	public void test(){
+		String s= "这,是,ce,shi";
+		String[] sa = s.split(",");
+		for(String t:sa)logger.info(t);
+	}
 
 }
