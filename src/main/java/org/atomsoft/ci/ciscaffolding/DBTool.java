@@ -3,6 +3,7 @@ package org.atomsoft.ci.ciscaffolding;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -33,14 +34,7 @@ public class DBTool {
 
 	public Map<String, String> getTables() {
 		String sql = "SHOW TABLE STATUS;";
-		final Map<String, String> mp = new java.util.TreeMap<String, String>(
-				new Comparator<String>() {
-
-					@Override
-					public int compare(String o1, String o2) {
-						return o1.compareTo(o2);
-					}
-				});
+		final Map<String, String> mp = new LinkedHashMap<>();
 		jdbcTemp.query(sql, new RowMapper<String>() {
 
 			@Override
@@ -58,7 +52,7 @@ public class DBTool {
 
 	public Map<String, ColumnMeta> getColumnsMetas(final String table) {
 		String sql = String.format("SHOW FULL FIELDS FROM `%s`", table);
-		final Map<String, ColumnMeta> mp = new java.util.TreeMap<String, ColumnMeta>();
+		final Map<String, ColumnMeta> mp = new java.util.LinkedHashMap<>();
 		jdbcTemp.query(sql, new RowMapper<String>() {
 
 			@Override
