@@ -25,13 +25,16 @@
 
         <#noparse>
             <?php foreach($datasource as $bean):?>
+            <?php
+               extract($bean);
+            ?>
         </#noparse>  
            <tr>
          <#list attrs?keys as attrName>
            <#assign meta = attrs[attrName]>
              <#if meta.inputType!="ckeditor">
                 <td>
-              ${r"<?=$bean['"}${meta.name}${r"']?>"}               
+              <?=val($${meta.name})?>             
             </td>  
              </#if>
                       

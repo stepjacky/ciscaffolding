@@ -25,8 +25,8 @@ import freemarker.template.TemplateException;
 public class AppTest {
 	static final Log logger = LogFactory.getLog(AppTest.class);
 	DBTool dbtool = new DBTool();
-	String base = "g:/webroot/newtest/";
-	@Test
+	String base = "g:/webroot/testwebsite/";
+	//@Test
 	public void generateCI() throws IOException, TemplateException {
 
 		
@@ -40,9 +40,9 @@ public class AppTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void generateOne() throws IOException, TemplateException{
-		generateMvc("artitle","新闻",dbtool.getColumnsMetas("artitle"));
+		generateMvc("fundsrecord","基金兑换记录",dbtool.getColumnsMetas("fundsrecord"));
 	}
 	
 	

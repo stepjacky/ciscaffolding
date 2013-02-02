@@ -40,7 +40,7 @@ class ${entityName?cap_first} extends MY_Controller {
     public function index(){
         $data = array();
         
-        $this->load->view("apps/header");
+        $this->__user_header($data);
         $this->load->view("${entityName}/index",$data);
         $this->load->view("apps/footer");
     }
@@ -81,7 +81,7 @@ class ${entityName?cap_first} extends MY_Controller {
          <#break>               
             </#if>
         </#list>
-        $this->load->view("admin/header");
+        $this->load->view("admin/res-head");
         $this->load->view($this->dao->table()."/editNew",$data);
         $this->load->view("admin/footer");
     }

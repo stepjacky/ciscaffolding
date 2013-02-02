@@ -28,7 +28,7 @@ public class DBTool {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost/beshop");
 		dataSource.setUsername("root");
-		dataSource.setPassword("");
+		dataSource.setPassword("123456");
 		jdbcTemp = new JdbcTemplate(dataSource);
 	}
 
@@ -59,9 +59,12 @@ public class DBTool {
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				String name = rs.getString(1);				
 				String comment = rs.getString(9);
+				String key = rs.getString(5);
 				ColumnMeta cm = new ColumnMeta(name,comment);
 				cm.setTable(table);
+				cm.setPkAble("pri".equalsIgnoreCase(key));
 				mp.put(name, cm);
+				
 				return null;
 			}
 

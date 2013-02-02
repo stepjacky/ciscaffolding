@@ -14,6 +14,7 @@ public class ColumnMeta {
 	private String inputType;
 	private String extra;
 	private String html;
+	private boolean pkAble;
     static final Log logger = LogFactory.getLog(ColumnMeta.class);
 	public ColumnMeta(String name, String comment) {
 		super();
@@ -125,14 +126,7 @@ public class ColumnMeta {
 					.val(parseValue(name));
 			break;
 		}
-		case "datepicker":{
-			// <input class="datepicker" 
-			// data-date-format="yyyy-mm-dd" 
-			// type="text" 
-			//name="${meta.name}" 
-			// id="${meta.name}"  
-			//value="${r"<?php echo isset($id)?$"}${meta.name} ${r":'';?>"}" 
-			//readOnly="true"/>   
+		case "datepicker":{			
 		       
 			input = doc.createElement("input");
 			input.attr("type","text")
@@ -163,7 +157,7 @@ public class ColumnMeta {
 	}
 
 	String parseValue(String name) {
-		return String.format("<?php echo isset($%s)?$%s:''?>", name, name);
+		return String.format("<?=val($%s)?>",name);
 	}
 
 	public String getHtml() {
@@ -180,6 +174,14 @@ public class ColumnMeta {
 
 	public void setTable(String table) {
 		this.table = table;
+	}
+
+	public boolean isPkAble() {
+		return pkAble;
+	}
+
+	public void setPkAble(boolean pkAble) {
+		this.pkAble = pkAble;
 	}
 
 }
